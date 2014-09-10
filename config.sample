@@ -1,0 +1,6 @@
+servers:
+  - tcp://example.com:4243
+  - unix:///var/run/docker.sock
+
+emails:
+  - test@example.com

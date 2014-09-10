@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#
+# Stub executable for docker-watcher
+#
+
+require File.expand_path('../../config/environment',  __FILE__)
+
+DaemonKit::Application.exec( DAEMON_ROOT + '/libexec/docker-watcher-daemon.rb' )
