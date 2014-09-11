@@ -17,6 +17,7 @@ module DockerWatcher
 
       body = <<END
 Server: #{server.name}
+Image: #{event.from}
 Container: #{container_name}
 Command: #{container.info['Config']['Cmd']}
 Status: #{event.status}'d
