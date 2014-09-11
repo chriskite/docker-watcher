@@ -11,9 +11,9 @@ module DockerWatcher
 
       container = Docker::Container.get(event.id, {}, server.docker)
 
-      container_name = container.info['Config']['Hostname'] || event.id
+      container_name = container.info['Config']['Hostname'] || event.from
 
-      subject = "#{server.name} #{container_name} #{event.status}'d"
+      subject = "[#{event.status.upcase}] #{server.name} #{container_name}"
 
       body = <<END
 Server: #{server.name}

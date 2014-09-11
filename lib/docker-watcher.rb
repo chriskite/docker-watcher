@@ -54,7 +54,7 @@ module DockerWatcher
         []
       end
 
-      @events = content['events'] || ['die']
+      @events = content['events'] || %w(start stop die)
 
       raise "No servers specified in config" unless !!@servers
     end
