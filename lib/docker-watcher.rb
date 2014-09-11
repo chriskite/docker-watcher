@@ -10,9 +10,13 @@ module DockerWatcher
     end
 
     def stream!
+      threads = []
       @servers.each do |server|
-        server.stream! { |event| handle(server, event) }
+        threads << Thread.new(server) do |server|
+          server.stream! { |event| handle(server, event) }
+        end
       end
+      threads.each { |t| t.join }
     end
 
     protected

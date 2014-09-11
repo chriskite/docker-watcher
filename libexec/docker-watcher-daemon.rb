@@ -9,9 +9,9 @@ DaemonKit::Application.running! do |config|
   #   # do something clever
   # end
   # config.trap( 'TERM', Proc.new { puts 'Going down' } )
-end
 
-docker_watcher = DockerWatcher::Watcher.new
-docker_watcher.stream!
+  docker_watcher = DockerWatcher::Watcher.new
+  docker_watcher.stream!
+end
 
 DaemonKit.run

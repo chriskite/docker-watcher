@@ -22,7 +22,11 @@ module DockerWatcher
           yield event
         end
       rescue Docker::Error::TimeoutError
-        DaemonKit.logger.debug("Docker stream timed out, reconnecting")
+        DaemonKit.logger.debug("Docker #{name} stream timed out, reconnecting")
+        retry
+      rescue Excon::Errors::SocketError
+        DaemonKit.logger.error("Docker #{name} stream closed, attempting to reconnect")
+        sleep 5
         retry
       end
     end
