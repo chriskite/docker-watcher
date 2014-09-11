@@ -32,13 +32,15 @@ module DockerWatcher
 
       content = YAML.load( File.read(file) )
 
-      @servers = content['servers'].map do |s|
+      @servers = []
+      content['servers'].each do |s|
         begin
-          DockerWatcher::Server.new(s)
+          s = DockerWatcher::Server.new(s)
+          @servers << s
         rescue
           DaemonKit.logger.error("Could not connect to server '#{s}'\n" + $!.message) 
         end
-      end.compact
+      end
 
       @emails = if !!content['emails']
         content['emails'].map { |e| DockerWatcher::Email.new(e, content['smtp']) }
