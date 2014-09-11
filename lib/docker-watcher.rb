@@ -41,7 +41,7 @@ module DockerWatcher
       end.compact
 
       @emails = if !!content['emails']
-        content['emails'].map { |e| DockerWatcher::Email.new(e) }
+        content['emails'].map { |e| DockerWatcher::Email.new(e, content['smtp']) }
       else
         []
       end
