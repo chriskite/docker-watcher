@@ -34,6 +34,8 @@ END
 
       DaemonKit.logger.debug(opts)
       Pony.mail(opts)
+      rescue
+        DaemonKit.logger.error("Error sending email:\n" + $!.message)
     end
 
   end
