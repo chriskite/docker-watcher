@@ -9,7 +9,7 @@ module DockerWatcher
     def send(server, event)
       DaemonKit.logger.debug("Sending event to #{@address}")
 
-      container = Docker::Container.get(event.id, server.docker)
+      container = Docker::Container.get(event.id, {}, server.docker)
 
       container_name = container.info['Config']['Hostname'] || event.id
 
@@ -35,7 +35,7 @@ END
       DaemonKit.logger.debug(opts)
       Pony.mail(opts)
       rescue
-        DaemonKit.logger.error("Error sending email:\n" + $!.message)
+        DaemonKit.logger.error("Error sending email:\n" + $!.message + "\n" + $!.backtrace.join("\n"))
     end
 
   end
