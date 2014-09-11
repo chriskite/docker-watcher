@@ -16,9 +16,14 @@ module DockerWatcher
     end
 
     def stream!
-      Docker::Event.stream({}, @docker) do |event|
-        DaemonKit.logger.debug(event)
-        yield event
+      begin
+        Docker::Event.stream({}, @docker) do |event|
+          DaemonKit.logger.debug(event)
+          yield event
+        end
+      rescue Docker::Error::TimeoutError
+        DaemonKit.logger.debug("Docker stream timed out, reconnecting")
+        retry
       end
     end
 
