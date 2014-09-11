@@ -16,9 +16,9 @@ module DockerWatcher
       subject = "#{server.name} #{container_name} #{event.status}'d"
 
       body = <<END
-Server: #{servername}
+Server: #{server.name}
 Container: #{container_name}
-Command: #{container['Config']['Cmd']}
+Command: #{container.info['Config']['Cmd']}
 Status: #{event.status}'d
 Timestamp: #{Time.at(event.time)}
 END
@@ -30,7 +30,7 @@ END
         from: @smtp_options[:from]
       }
 
-      opts.merge!(smtp_options: @smtp_options) if !!@smtp_options
+      opts.merge!(via_options: @smtp_options) if !!@smtp_options
 
       DaemonKit.logger.debug(opts)
       Pony.mail(opts)
