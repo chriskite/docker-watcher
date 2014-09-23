@@ -17,7 +17,7 @@ module DockerWatcher
 
     def stream!
       begin
-        Docker::Event.stream({}, @docker) do |event|
+        Docker::Event.stream({read_timeout: nil}, @docker) do |event|
           DaemonKit.logger.debug(event)
           yield event
         end
