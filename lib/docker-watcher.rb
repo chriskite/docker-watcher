@@ -24,7 +24,9 @@ module DockerWatcher
     def handle(server, event)
       DaemonKit.logger.info(event)
       if @events.include?(event.status)
-        (@emails + @hipchats).each { |e| e.send(server, event) }
+        (@emails + @hipchats).each do |e|
+          Thread.new(e) { e.send(server, event) }
+        end
       end
     end
 
